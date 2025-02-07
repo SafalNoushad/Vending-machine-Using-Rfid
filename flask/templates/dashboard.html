@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* CSS styles for the navbar */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+        
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        
+        /* CSS styles for the main content area */
+        .content {
+            padding: 20px;
+        }
+
+        /* CSS styles for sections */
+        .section {
+            display: none; /* Initially hide all sections */
+        }
+
+        .section.active {
+            display: block; /* Show active section */
+        }
+
+        /* CSS styles for the add user form */
+        .add-user-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .add-user-form label {
+            margin-bottom: 5px;
+        }
+
+        .add-user-form input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .add-user-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .add-user-form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* CSS styles for the edit user form */
+        .edit-user-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .edit-user-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .edit-user-form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* CSS styles for the existing users table */
+        .existing-users, .existing-products {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .existing-users th, .existing-users td,
+        .existing-products th, .existing-products td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .existing-users th, .existing-products th {
+            background-color: #f2f2f2;
+        }
+
+        /* CSS styles for the delete button */
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* CSS styles for the add product form */
+        .add-product-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .add-product-form label {
+            margin-bottom: 5px;
+        }
+
+        .add-product-form input[type="text"],
+        .add-product-form input[type="date"],
+        .add-product-form input[type="number"] { /* Added styling for input[type="number"] */
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .add-product-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .add-product-form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* CSS styles for the delete button in the existing products table */
+        .existing-products .delete-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .existing-products .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* CSS styles for the transactions table */
+        .transaction-history {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .transaction-history th, .transaction-history td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .transaction-history th {
+            background-color: #f2f2f2;
+        }
+
+        /* CSS styles for the delete button */
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        #clearTransactionsBtn {
+            background-color: #f44336; /* Red background color */
+            color: white; /* White text color */
+            padding: 10px 20px; /* Padding */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor style on hover */
+        }
+
+        #clearTransactionsBtn:hover {
+            background-color: #d32f2f; /* Darker red background color on hover */
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('users')">Users</a>
+    <a href="#" onclick="showSection('products')">Products</a>
+    <a href="#" onclick="showSection('transactions')">Transactions</a>
+</div>
+
+<div class="content">
+    <div id="home" class="section active">
+        <h2>Welcome to the Admin Dashboard</h2>
+        <!-- Add more content here for the home section -->
+    </div>
+
+    <div id="users" class="section">
+        <h2>Users</h2>
+        <!-- Add User button -->
+        <button id="addUserBtn">Add User</button>
+
+        <!-- Form for adding a new user (initially hidden) -->
+        <div class="add-user-form">
+            <h3>Add User</h3>
+            <form action="/add_user" method="post">
+                <label for="rfid">RFID:</label><br>
+                <input type="text" id="rfid" name="rfid" required><br>
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+
+        <!-- Display existing users as a table -->
+        <h3>Existing Users</h3>
+        <table class="existing-users">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.rfid }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteUser('{{ user.rfid }}')">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="products" class="section">
+        <h2>Products</h2>
+        <button id="addProductBtn" onclick="toggleAddProductForm()">Add Product</button>
+        <!-- Form for adding a new product (initially hidden) -->
+        <div class="add-product-form" style="display: none;">
+            <h3>Add Product</h3>
+            <form id="addProductForm" action="/add_product" method="post">
+                <label for="productId">Product ID:</label><br>
+                <input type="text" id="productId" name="productId" required><br>
+                <label for="expiryDate">Expiry Date:</label><br>
+                <input type="date" id="expiryDate" name="expiryDate" required><br>
+                <label for="price">Price:</label><br>
+                <input type="number" id="price" name="price" required><br><br>
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+        <!-- Existing Products Table -->
+        <h3>Existing Products</h3>
+        <table class="existing-products">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Expiry Date</th>
+                    <th>Price</th> <!-- New header for price -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productsTableBody">
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <div id="transactions" class="section">
+        <h2>Transactions</h2>
+        <button id="clearTransactionsBtn">Clear Transactions</button>
+        <table class="transaction-history">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>User Name</th>
+                    <th>Amount Paid</th>
+                    <th>Product ID</th>
+                </tr>
+            </thead>
+            <tbody id="transactionTableBody">
+                <!-- Transaction data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>
+
+<script>
+    function toggleAddProductForm() {
+        var form = document.querySelector('.add-product-form');
+        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    }
+
+    // Function to fetch and display existing products
+    function fetchExistingProducts() {
+        fetch('/get_products') // Replace '/get_products' with the actual endpoint to fetch products
+            .then(response => response.json())
+            .then(products => {
+                var tableBody = document.getElementById('productsTableBody');
+                tableBody.innerHTML = ''; // Clear existing table rows
+                products.forEach(product => {
+                    var row = document.createElement('tr');
+                    var productIdCell = document.createElement('td');
+                    productIdCell.textContent = product.product_id;
+                    var expiryDateCell = document.createElement('td');
+                    expiryDateCell.textContent = product.expiry_date;
+                    var priceCell = document.createElement('td'); // Create price cell
+                    priceCell.textContent = product.price; // Set price value
+                    // Create delete button
+                    var deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.onclick = function() {
+                        deleteProduct(product.product_id);
+                    };
+
+                    // Append cells to row
+                    row.appendChild(productIdCell);
+                    row.appendChild(expiryDateCell);
+                    row.appendChild(priceCell); // Add price cell to row
+                    row.appendChild(deleteBtn); // Add delete button to row
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }
+
+
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+        if (sectionId === 'products') {
+            fetchExistingProducts();
+        }
+    }
+
+    // JavaScript to show/hide the form
+    document.getElementById('addUserBtn').addEventListener('click', function() {
+        var form = document.querySelector('.add-user-form');
+        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    });
+
+    // Function to delete a user
+    function deleteUser(userId) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            // Send a request to delete the user with the given ID
+            fetch('/delete_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: userId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Reload the page to reflect the changes
+                    location.reload();
+                } else {
+                    alert('Failed to delete user');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+                alert('An error occurred while deleting user');
+            });
+        }
+    }
+    function deleteProduct(productId) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            // Send a request to delete the product with the given ID
+            fetch('/delete_product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: productId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Reload the page to reflect the changes
+                    location.reload();
+                } else {
+                    alert('Failed to delete product');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting product:', error);
+                alert('An error occurred while deleting product');
+            });
+        }
+    }
+    // Function to fetch and display transaction history
+function fetchTransactionHistory() {
+    fetch('/get_transactions')
+        .then(response => response.json())
+        .then(transactions => {
+            var tableBody = document.getElementById('transactionTableBody');
+            tableBody.innerHTML = ''; // Clear existing table rows
+            transactions.forEach(transaction => {
+                var row = document.createElement('tr');
+                var transactionIdCell = document.createElement('td');
+                transactionIdCell.textContent = transaction.transaction_id;
+                var userNameCell = document.createElement('td');
+                userNameCell.textContent = transaction.user_name;
+                var amountPaidCell = document.createElement('td');
+                amountPaidCell.textContent = transaction.amount_paid;
+                var productIdCell = document.createElement('td');
+                productIdCell.textContent = transaction.product_id;
+
+                // Append cells to row
+                row.appendChild(transactionIdCell);
+                row.appendChild(userNameCell);
+                row.appendChild(amountPaidCell);
+                row.appendChild(productIdCell);
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching transactions:', error));
+}
+// Call fetchTransactionHistory function when the page loads
+document.addEventListener('DOMContentLoaded', fetchTransactionHistory);
+
+// Function to clear all transactions
+function clearTransactions() {
+    fetch('/clear_transactions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Transactions cleared successfully.");
+            // Optionally, reload the transaction history after clearing
+            fetchTransactionHistory();
+        } else {
+            console.error("Failed to clear transactions.");
+        }
+    })
+    .catch(error => console.error('Error clearing transactions:', error));
+}
+
+// Attach click event listener to the clear transactions button
+document.getElementById('clearTransactionsBtn').addEventListener('click', clearTransactions);
+
+
+</script>
+
+</body>
+</html>
